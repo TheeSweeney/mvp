@@ -17,28 +17,29 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  Skating Weather
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  A smarter way for skate commuters to wake up.
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  Skating Weather is a trigger based alarm clock that checks the weather for you. Since skating in the rain is dangerous if not impossible, Skating Weather will check the weather and forecast about an hour before your alarm is set. If it has rained or will rain, Skating Weather will adjust your alarm clock to wake you up in time to grab a raincoat and walk to work, class, or wherever you need to go.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  Skating is a fast way to get to work or class. But if you wake up assuming you can skate in, and it's pouring rain outside, you're going to either be late or ruin the bearings on your skateboard.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  Skating Weather checks the weather before you wake up, as well as the forecast for soon after your wakeup time, and if will rain, has rained, or is raining, adjusts the users alarm clock so they have enough time to wake up and walk in.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  Walking is for squares.
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  Just hop onto our website, enter in your wakeup time and start-stop location. Leave the webpage open and Skate Weather will do the rest.
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  "I used to be late all the time because I lived in Seattle, but still tried to skate into work every morning. It just wasn't feasible. 3 days a week I'd wake up to see I'd have to catch an uber because it was raining too hard to skate. Not anymore. Now I always wake up with enough time to get to work by my own locomotion, be it skating or walking"
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  Skate or be late.
+  
