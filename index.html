@@ -1,20 +1,24 @@
 <!doctype html>
 
 <html lang="en">
-<head>
+<head ng-app="WakeNSkate">
+  
   <meta charset="utf-8">
-  <script src="https://code.jquery.com/jquery-2.1.4.min.js
-"></script>
+  
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="https://code.angularjs.org/1.5.0-rc.0/angular-route.min.js"></script>
+  
   <title>Skating Weather</title>
+  
   <meta name="author" content="Brian Sweeney">
-
-  <link rel="stylesheet" href="JuliaStyles.css">
+  
+  <link rel="stylesheet" href="./styles/JuliaStyles.css">
 </head>
 
 <body>
   <h1>Skating Weather</h1>
-  <div>
-    <form >
+  <div ng-view>
+    <form>
     Wakeup Time: <input type = 'time'>
       <input type = "submit" value='Set Alarm'>
 

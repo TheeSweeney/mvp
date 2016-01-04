@@ -1,4 +1,4 @@
-var app = angular.module('WakeNSkate',[
+var WakeNSkate = angular.module('WakeNSkate',[
   'ngRoute'
   ])
 
