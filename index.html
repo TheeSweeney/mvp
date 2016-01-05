@@ -1,29 +1,57 @@
 <!doctype html>
 
-<html lang="en">
-<head ng-app="WakeNSkate">
+<html lang="en" ng-app="WakeNSkate">
+<head>
+  
+  <meta name="author" content="Brian Sweeney">
+  
+  <link rel="stylesheet" href="styles/JuliaStyles.css">
   
   <meta charset="utf-8">
   
   <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="https://code.angularjs.org/1.5.0-rc.0/angular.min.js"></script>
   <script src="https://code.angularjs.org/1.5.0-rc.0/angular-route.min.js"></script>
+  <script src="app/mainController.js"></script>
+  <script src="app/clockController.js"></script>
+  <script src="app/app.js"></script>
+  <script src="app/alarm.js"></script>
   
   <title>Skating Weather</title>
   
-  <meta name="author" content="Brian Sweeney">
-  
-  <link rel="stylesheet" href="./styles/JuliaStyles.css">
 </head>
 
 <body>
-  <h1>Skating Weather</h1>
-  <div ng-view>
-    <form>
-    Wakeup Time: <input type = 'time'>
-      <input type = "submit" value='Set Alarm'>
+  <h1>Wake 'N Skate</h1>
+  <div ng-view></div>
+    <a href="#/home">Is routing working?</a>
+  
+  <form action="" method="">
+    <div id="jsalarmclock">
+      <div>
+        <div class="leftcolumn">Current Time:</div>
+        <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
+      </div>
+      <div>
+        <div class="leftcolumn">Set Alarm:</div> 
+          <span>
+            <select></select> Hour
+          </span> 
+          <span>
+            <select></select> Minutes
+          </span> 
+          <span>
+            <select></select> Seconds
+          </span>
+      </div>
+      <input type"text" id="zipcode" placeholder = 'zip code'>
+      <input type="submit" value="Set Alarm!" id="submitbutton" href="#/alarm"/> 
+      <input type="reset" value="reset" id="resetbutton" />
+    </div>
+  </form>
 
-  </div>
-
-
+<script type="text/javascript">jsalarm.init()</script>
 </body>
 </html>
+
+
