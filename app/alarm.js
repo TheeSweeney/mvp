@@ -1,4 +1,6 @@
 var zipcode;
+var destination;
+var startLocation;
 var weatherHasBeenChecked = false;
 var alarm={
   showcurrenttime:function(){//gets run once a second to increment the time on the
@@ -18,6 +20,7 @@ var alarm={
     }
   },
   init:function(){
+
     var currDate=new Date();
 
     this.currTimeRef = document.getElementById("alarm_ct");
@@ -27,6 +30,10 @@ var alarm={
     this.submitButton.onclick = function(){
       alarm.setalarm();
       zipcode = document.getElementById("zipcode").value;
+      destination = document.getElementById("destination").value;
+      startLocation = document.getElementById("startLocation").value;
+      this.disabled = true;
+      routeCheck();
     };
 
     this.reset=document.getElementById("resetbutton");
@@ -61,6 +68,7 @@ var alarm={
     this.hourwake=this.hourselect.options[this.hourselect.selectedIndex].value;
     this.minutewake=this.minuteselect.options[this.minuteselect.selectedIndex].value;
     this.secondwake=this.secondselect.options[this.secondselect.selectedIndex].value;
+    this.waketime = this.hourwake + this.minutewake + this.secondwake;
     this.hourselect.disabled=true;
     this.minuteselect.disabled=true;
     this.secondselect.disabled=true;
@@ -79,7 +87,7 @@ var weatherCheck = function(zipcode){
     url: "http://api.openweathermap.org/data/2.5/weather?zip=" + zipcode + ",us&APPID=d4cfd0bd1508312c19df37e0c64b5bdf",
     context: document.body
   }).done(function(res) {
-    console.log(res.rain['1h']);
+    console.log(res);
     if(res.rain['1h'] > 0.49){    //returns probability of rain within the next hour
       console.log("it gon' rain");
       resetAlarm();               //dat modularity
@@ -89,17 +97,28 @@ var weatherCheck = function(zipcode){
 };
 
 var resetAlarm = function(){//tricky to write since I wanted only a half hour adjustment
-  console.log(alarm.minutewake);
   if(alarm.minutewake > 30){
     alarm.minutewake = (parseInt(alarm.minutewake) - 30).toString();//alarm.minutewake is a string, so I need to parse it, do math, the stringify it
   }else{
     alarm.minutewake = (60 - (30 - parseInt(alarm.minutewake))).toString();
-    alarm.hourwake = (parseInt(alarm.hourwake) - 30);
-  } 
-  console.log(alarm.minutewake);
+    alarm.hourwake = (parseInt(alarm.hourwake) - 1);
+  }
 };
 
-
+var routeCheck = function(){
+  var walkTime;
+  var bikeTime;
+  $.ajax({
+    type: 'GET',
+    headers:{
+      "Authorization": "AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk",
+      "Access-Control-Allow-Origin": "*",
+    },
+    url: "https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk"
+  }).done(function(res){
+    console.log(res);
+  });
+};
 
 
 

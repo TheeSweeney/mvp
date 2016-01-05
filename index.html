@@ -18,12 +18,12 @@
   <script src="app/alarm.js"></script>
 
   
-  <title>Skating Weather</title>
+  <title>Wake 'N Skate</title>
   
 </head>
 
 <body ng-app="WakeNSkate">
-  <h1>Wake 'N Skate</h1>
+  <h1 id='header'>Wake 'N Skate</h1>
   <div ng-view></div>  
   <form action="" method="">
     <div id="alarmclock">
@@ -43,7 +43,16 @@
             <select></select> Seconds
           </span>
       </div>
-      <input type"text" id="zipcode" placeholder = 'zip code'>
+      <br/>
+      <div>
+        <input type"text" id="zipcode" placeholder = 'zip code'>
+      </div>
+      <div>
+        <input type"text" id="startLocation" placeholder = 'Starting Address'>
+      </div>
+      <div>
+        <input type"text" id="destination" placeholder = 'Ending Address'>
+      </div>
       <input type="submit" value="Set Alarm!" id="submitbutton" href="#/alarm"/> 
       <input type="reset" value="reset" id="resetbutton" />
     </div>
