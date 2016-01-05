@@ -1,3 +1,9 @@
+body {
+  background-size: cover;
+  background-image: url(https://c2.staticflickr.com/4/3145/2337545543_419c7a18f9.jpg);
+  background-size: 100% auto;
+}
+
 @font-face {
   font-family: "thrasher";
   src: url(./thrasher.TTF);
@@ -35,10 +41,18 @@ margin-right: 5px;
   display: block;
 }
 
-body {
-  background-size: cover;
-  background-image: url(https://c2.staticflickr.com/4/3145/2337545543_419c7a18f9.jpg);
-  background-size: 100% auto;
+select {
+    color: #510505;
+    background-image: url(http://uxrepo.com/static/icon-sets/flat-arrows/svg/flat-circle-round-down-arrow.svg);
+    background-color: #7D8F9F;
+}
+
+
+.alarmBox {
+  display: flex;
+  justify-content: center;
+  margin: 10% auto;
+  font-family: 'thrasher';
 }
 
 #header {
@@ -49,6 +63,10 @@ body {
   text-shadow: black .25em .25em 0.2em;
 }
 
-#test {
+#alert {
   display: none;
+  background-color: #4c1f36;
+  border: 2px dashed #3d0303;
+  width: 230px;
+  text-align: center;
 }

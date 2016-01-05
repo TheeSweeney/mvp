@@ -9,8 +9,8 @@ var alarm={
     this.currTimeRef.innerHTML = currentTime;
     this.currTimeRef.setAttribute( "title", currentTime);
     if (typeof this.hourwake != "undefined"){ //if alarm is set
-      if(currDate.getHours() ===  (parseInt(this.hourwake))-1 && weatherHasBeenChecked === false){
-        zipcode = zipcode === "" ? "94103" : zipcode;
+      if((currDate.getHours() ===  (parseInt(this.hourwake))-1 || currDate.getHours() ===  (parseInt(this.hourwake))) && weatherHasBeenChecked === false){
+        zipcode = zipcode === "" ? "94103" : zipcode;  //had to include above nested conditional in case someone set an alarm for the same hour
         weatherCheck(zipcode);
       }
       if (this.currTimeRef.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)){
@@ -33,29 +33,30 @@ var alarm={
       destination = document.getElementById("destination").value;
       startLocation = document.getElementById("startLocation").value;
       this.disabled = true;
-      routeCheck();
+      //routeCheck();                                           //commented out routeCheck to test pop-up
     };
 
     this.reset=document.getElementById("resetbutton");
 
-    this.reset.onclick=function(){
+    this.reset.onclick=function(){//turn all the buttons back on
       alarm.submitButton.disabled=false;
-      alarm.hourwake=undefined;
+      alarm.hourwake=undefined;//functionally disable the clock
       alarm.hourselect.disabled=false;
       alarm.minuteselect.disabled=false;
       alarm.secondselect.disabled=false;
       return false;
     };
 
-    var selections=document.getElementsByTagName("select");
+    var selections=document.getElementsByTagName("select"); //grab the three options boxes
 
-    this.hourselect=selections[0];
+    this.hourselect=selections[0]; //divide them by what they contain
     this.minuteselect=selections[1];
     this.secondselect=selections[2];
 
     for (var i=0; i<60; i++){
-      if (i<24) //If still within range of hours field: 0-23
-      this.hourselect[i]=new Option(i, i, false, currDate.getHours()==i);
+      if (i<24){ //If still within range of hours field: 0-23
+        this.hourselect[i]=new Option(i, i, false, currDate.getHours()==i); //Option(value, text, defaultSelected(not sure what this does, just keep it at its default value of false), selected)
+      }
       this.minuteselect[i]=new Option(i, i, false, currDate.getMinutes()==i);
       this.secondselect[i]=new Option(i, i, false, currDate.getSeconds()==i);
     }
@@ -97,6 +98,8 @@ var weatherCheck = function(zipcode){
 };
 
 var resetAlarm = function(){//tricky to write since I wanted only a half hour adjustment
+  $('#alert').show();
+  console.log("alarm reset")
   if(alarm.minutewake > 30){
     alarm.minutewake = (parseInt(alarm.minutewake) - 30).toString();//alarm.minutewake is a string, so I need to parse it, do math, the stringify it
   }else{
@@ -105,31 +108,45 @@ var resetAlarm = function(){//tricky to write since I wanted only a half hour ad
   }
 };
 
-var routeCheck = function(){
-  var walkTime;
-  var bikeTime;
-  $.ajax({
-    type: 'GET',
-    headers:{
-      "Authorization": "AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk",
-      "Access-Control-Allow-Origin": "*",
-    },
-    url: "https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk"
-  }).done(function(res){
-    console.log(res);
-  });
-};
+// var routeCheck = function(){
+//   var walkTime;
+//   var bikeTime;
 
-$(document).ready(function(){
+//   $.ajax({
+//     type: 'GET',
+//     headers:{
+//       "Authorization": "AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk",
+//       "Access-Control-Allow-Origin": "*"
+//     },
+//     dataType: 'jsonp',
+//     callback: function(res){console.log(res)},
+//     url: "https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk"
+//   }).done(function(res){
+//     console.log(res);
+//   });
+// };
 
-  $('#submitid').click(function(){
-    $('#test').show();
-  });
+// $(document).ready(function(){
+//   $('#submitid').click(function(){
+//     $('#alert').show();
+//   });
 
-});
+// });
+
+// var jsonpRequest = function(url, callback) {
+
+//   var script = document.createElement('script');
+//   script.src = url + '?callback=onResponse';
+//   window.onResponse = callback;
+
+//   document.body.appendChild(script);
+
+
+// };
 
 
 
+// jsonpRequest("https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk", function(res){console.log(res)});
 
 
 

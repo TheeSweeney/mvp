@@ -24,42 +24,43 @@
 
 <body ng-app="WakeNSkate">
   <h1 id='header'>Wake 'N Skate</h1>
-  <div ng-view></div>  
-  <form action="" method="">
-    <div id="alarmclock">
-      <div>
-        <div class="leftcolumn">Current Time:</div>
-        <span id="alarm_ct" style="letter-spacing: 2px"></span>
+  <div class = "alarmBox">
+    <form action="" method="">
+      <div id="alarmclock">
+        <div>
+          <div class="leftcolumn">Current Time:</div>
+          <span id="alarm_ct" style="letter-spacing: 2px"></span>
+        </div>
+        <div>
+          <div class="leftcolumn">Set Alarm:</div> 
+            <span>
+              <select></select> Hour
+            </span> 
+            <span>
+              <select></select> Minutes
+            </span> 
+            <span>
+              <select></select> Seconds
+            </span>
+        </div>
+        <br/>
+        <div id = "alert">
+          <p> Your alarm has been reset</p>
+        </div>
+        <div>
+          <input type"text" id="zipcode" placeholder = 'zip code'>
+        </div>
+        <div>
+          <input type"text" id="startLocation" placeholder = 'Starting Street Address'>
+        </div>
+        <div>
+          <input type"text" id="destination" placeholder = 'Ending Street Address'>
+        </div>
+        <input type="submit" value="Set Alarm!" id="submitid" href="#/alarm"/> 
+        <input type="reset" value="reset" id="resetbutton" />
       </div>
-      <div>
-        <div class="leftcolumn">Set Alarm:</div> 
-          <span>
-            <select></select> Hour
-          </span> 
-          <span>
-            <select></select> Minutes
-          </span> 
-          <span>
-            <select></select> Seconds
-          </span>
-      </div>
-      <br/>
-      <div id = "test">
-        <p> Your estimated travel time is</p>
-      </div>
-      <div>
-        <input type"text" id="zipcode" placeholder = 'zip code'>
-      </div>
-      <div>
-        <input type"text" id="startLocation" placeholder = 'Starting Street Address'>
-      </div>
-      <div>
-        <input type"text" id="destination" placeholder = 'Ending Street Address'>
-      </div>
-      <input type="submit" value="Set Alarm!" id="submitid" href="#/alarm"/> 
-      <input type="reset" value="reset" id="resetbutton" />
-    </div>
-  </form>
+    </form>
+  </div>  
 
 <script type="text/javascript">alarm.init()</script>
 </body>
