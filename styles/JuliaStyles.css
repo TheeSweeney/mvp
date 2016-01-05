@@ -48,3 +48,7 @@ body {
   font-family: 'thrasher';
   text-shadow: black .25em .25em 0.2em;
 }
+
+#test {
+  display: none;
+}

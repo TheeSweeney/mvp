@@ -25,7 +25,7 @@ var alarm={
 
     this.currTimeRef = document.getElementById("alarm_ct");
 
-    this.submitButton = document.getElementById("submitbutton");
+    this.submitButton = document.getElementById("submitid");
 
     this.submitButton.onclick = function(){
       alarm.setalarm();
@@ -120,6 +120,13 @@ var routeCheck = function(){
   });
 };
 
+$(document).ready(function(){
+
+  $('#submitid').click(function(){
+    $('#test').show();
+  });
+
+});
 
 
 
