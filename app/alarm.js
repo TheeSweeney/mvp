@@ -1,40 +1,42 @@
-var jsalarm={
-  padfield:function(f){
-    return (f<10) ? "0" + f : f;
-  },
-  showcurrenttime:function(){
-    var dateobj = new Date();
-    var currentTime = this.padfield(dateobj.getHours())+":"+this.padfield(dateobj.getMinutes())+":"+this.padfield(dateobj.getSeconds());
-    this.ctref.innerHTML = currentTime;
-    this.ctref.setAttribute( "title", currentTime);
+var zipcode;
+var weatherHasBeenChecked = false;
+var alarm={
+  showcurrenttime:function(){//gets run once a second to increment the time on the
+    var currDate = new Date();
+    var currentTime = currDate.getHours()+":"+ currDate.getMinutes()+":"+currDate.getSeconds();
+    this.currTimeRef.innerHTML = currentTime;
+    this.currTimeRef.setAttribute( "title", currentTime);
     if (typeof this.hourwake != "undefined"){ //if alarm is set
-      if (this.ctref.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)){
-        clearInterval(jsalarm.timer);
+      if(currDate.getHours() ===  (parseInt(this.hourwake))-1 && weatherHasBeenChecked === false){
+        zipcode = zipcode === "" ? "94103" : zipcode;
+        weatherCheck(zipcode);
+      }
+      if (this.currTimeRef.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)){
+        clearInterval(alarm.timer);
         window.location="https://youtu.be/CSvFpBOe8eY?t=35";
       }
     }
   },
   init:function(){
-    var dateobj=new Date();
+    var currDate=new Date();
 
-    this.zipcode = document.getElementById("zipcode")//what the fuck am I going to do with this
+    this.currTimeRef = document.getElementById("alarm_ct");
 
-    this.ctref=document.getElementById("jsalarm_ct");
+    this.submitButton = document.getElementById("submitbutton");
 
-    this.submitref=document.getElementById("submitbutton");
-
-    this.submitref.onclick=function(){
-      jsalarm.setalarm();
+    this.submitButton.onclick = function(){
+      alarm.setalarm();
+      zipcode = document.getElementById("zipcode").value;
     };
 
-    this.resetref=document.getElementById("resetbutton");
+    this.reset=document.getElementById("resetbutton");
 
-    this.resetref.onclick=function(){
-      jsalarm.submitref.disabled=false;
-      jsalarm.hourwake=undefined;
-      jsalarm.hourselect.disabled=false;
-      jsalarm.minuteselect.disabled=false;
-      jsalarm.secondselect.disabled=false;
+    this.reset.onclick=function(){
+      alarm.submitButton.disabled=false;
+      alarm.hourwake=undefined;
+      alarm.hourselect.disabled=false;
+      alarm.minuteselect.disabled=false;
+      alarm.secondselect.disabled=false;
       return false;
     };
 
@@ -46,14 +48,14 @@ var jsalarm={
 
     for (var i=0; i<60; i++){
       if (i<24) //If still within range of hours field: 0-23
-      this.hourselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getHours()==i);
-      this.minuteselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getMinutes()==i);
-      this.secondselect[i]=new Option(this.padfield(i), this.padfield(i), false, dateobj.getSeconds()==i);
+      this.hourselect[i]=new Option(i, i, false, currDate.getHours()==i);
+      this.minuteselect[i]=new Option(i, i, false, currDate.getMinutes()==i);
+      this.secondselect[i]=new Option(i, i, false, currDate.getSeconds()==i);
     }
 
-    jsalarm.showcurrenttime();
+    alarm.showcurrenttime();
 
-    jsalarm.timer=setInterval(function(){jsalarm.showcurrenttime();}, 1000);
+    alarm.timer=setInterval(function(){alarm.showcurrenttime();}, 1000);
   },
   setalarm:function(){
     this.hourwake=this.hourselect.options[this.hourselect.selectedIndex].value;
@@ -64,3 +66,60 @@ var jsalarm={
     this.secondselect.disabled=true;
   }
 };
+
+
+
+
+// var submitButton =  document.getElementById("submitbutton")
+
+// submitButton.onclick
+var weatherCheck = function(zipcode){
+  var out;
+  $.ajax({
+    url: "http://api.openweathermap.org/data/2.5/weather?zip=" + zipcode + ",us&APPID=d4cfd0bd1508312c19df37e0c64b5bdf",
+    context: document.body
+  }).done(function(res) {
+    console.log(res.rain['1h']);
+    if(res.rain['1h'] > 0.49){    //returns probability of rain within the next hour
+      console.log("it gon' rain");
+      resetAlarm();               //dat modularity
+    }   
+  });
+  weatherHasBeenChecked = true;//one want to run this function once, value set to false at top of page
+};
+
+var resetAlarm = function(){//tricky to write since I wanted only a half hour adjustment
+  console.log(alarm.minutewake);
+  if(alarm.minutewake > 30){
+    alarm.minutewake = (parseInt(alarm.minutewake) - 30).toString();//alarm.minutewake is a string, so I need to parse it, do math, the stringify it
+  }else{
+    alarm.minutewake = (60 - (30 - parseInt(alarm.minutewake))).toString();
+    alarm.hourwake = (parseInt(alarm.hourwake) - 30);
+  } 
+  console.log(alarm.minutewake);
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

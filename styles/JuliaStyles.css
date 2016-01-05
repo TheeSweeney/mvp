@@ -1,14 +1,14 @@
-#jsalarmclock{
+#alarmclock{
 font-family: Tahoma;
 font-weight: bold;
 font-size: 12px;
 }
 
-#jsalarmclock div{
+#alarmclock div{
 margin-bottom: 0.8em;
 }
 
-#jsalarmclock div.leftcolumn{
+#alarmclock div.leftcolumn{
 float: left;
 width: 150px;
 font-size: 13px;
@@ -16,7 +16,7 @@ background-color: lightyellow;
 clear: left;
 }
 
-#jsalarmclock span{
+#alarmclock span{
 margin-right: 5px;
 }
 

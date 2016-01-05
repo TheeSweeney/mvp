@@ -1,11 +1,10 @@
 
 angular.module('WakeNSkate',[
   'ngRoute',
-  'WakeNSkate.main',
-  'WakeNSkate.clock'
-  ])
-
-.config(function($routeProvider){
+  'WakeNSkate.clock',
+  'WakeNSkate.main'
+])
+.config(function ($routeProvider){
   $routeProvider
 
   .when('/clock', {
@@ -13,11 +12,8 @@ angular.module('WakeNSkate',[
     controller: 'clockContoller'
   })
   .when('/home', {
-    templateURL: 'app/pages/home.html',
+    templateURL: 'app/home/home.html',
     controller: 'mainController'
   })
   .otherwise({redirectTo:'/home'});
-})
-.run(function(){
-
 });

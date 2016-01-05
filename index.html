@@ -1,6 +1,6 @@
-<!doctype html>
+<!DOCTYPE html>
 
-<html lang="en" ng-app="WakeNSkate">
+<html lang="en">
 <head>
   
   <meta name="author" content="Brian Sweeney">
@@ -10,27 +10,26 @@
   <meta charset="utf-8">
   
   <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="https://code.angularjs.org/1.5.0-rc.0/angular.min.js"></script>
-  <script src="https://code.angularjs.org/1.5.0-rc.0/angular-route.min.js"></script>
-  <script src="app/mainController.js"></script>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="app/home/mainController.js"></script>
   <script src="app/clockController.js"></script>
   <script src="app/app.js"></script>
   <script src="app/alarm.js"></script>
+
   
   <title>Skating Weather</title>
   
 </head>
 
-<body>
+<body ng-app="WakeNSkate">
   <h1>Wake 'N Skate</h1>
-  <div ng-view></div>
-    <a href="#/home">Is routing working?</a>
-  
+  <div ng-view></div>  
   <form action="" method="">
-    <div id="jsalarmclock">
+    <div id="alarmclock">
       <div>
         <div class="leftcolumn">Current Time:</div>
-        <span id="jsalarm_ct" style="letter-spacing: 2px"></span>
+        <span id="alarm_ct" style="letter-spacing: 2px"></span>
       </div>
       <div>
         <div class="leftcolumn">Set Alarm:</div> 
@@ -50,7 +49,7 @@
     </div>
   </form>
 
-<script type="text/javascript">jsalarm.init()</script>
+<script type="text/javascript">alarm.init()</script>
 </body>
 </html>
 
