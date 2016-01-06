@@ -1,7 +1,9 @@
 var zipcode;
-var destination;
-var startLocation;
+var travelTime = {};
+var destination = {};
+var startLocation = {};
 var weatherHasBeenChecked = false;
+var differenceInMinutes;
 var alarm={
   showcurrenttime:function(){//gets run once a second to increment the time on the
     var currDate = new Date();
@@ -15,7 +17,7 @@ var alarm={
       }
       if (this.currTimeRef.title == (this.hourwake + ":" + this.minutewake + ":" + this.secondwake)){
         clearInterval(alarm.timer);
-        window.location="https://youtu.be/CSvFpBOe8eY?t=35";
+        window.location="https://youtu.be/CSvFpBOe8eY?t=41";
       }
     }
   },
@@ -30,15 +32,16 @@ var alarm={
     this.submitButton.onclick = function(){
       alarm.setalarm();
       zipcode = document.getElementById("zipcode").value;
-      destination = document.getElementById("destination").value;
-      startLocation = document.getElementById("startLocation").value;
+      destination.address = document.getElementById("destinationStreetAddress").value;
+      startLocation.address = document.getElementById("startStreetAddress").value;
       this.disabled = true;
-      //routeCheck();                                           //commented out routeCheck to test pop-up
+      getLatLong();
     };
 
     this.reset=document.getElementById("resetbutton");
 
     this.reset.onclick=function(){//turn all the buttons back on
+      $('#alert').hide()
       alarm.submitButton.disabled=false;
       alarm.hourwake=undefined;//functionally disable the clock
       alarm.hourselect.disabled=false;
@@ -88,8 +91,7 @@ var weatherCheck = function(zipcode){
     url: "http://api.openweathermap.org/data/2.5/weather?zip=" + zipcode + ",us&APPID=d4cfd0bd1508312c19df37e0c64b5bdf",
     context: document.body
   }).done(function(res) {
-    console.log(res);
-    if(res.rain['1h'] > 0.49){    //returns probability of rain within the next hour
+    if(res.rain['1h'] > 0.1){    //returns probability of rain within the next hour
       console.log("it gon' rain");
       resetAlarm();               //dat modularity
     }   
@@ -99,54 +101,65 @@ var weatherCheck = function(zipcode){
 
 var resetAlarm = function(){//tricky to write since I wanted only a half hour adjustment
   $('#alert').show();
-  console.log("alarm reset")
-  if(alarm.minutewake > 30){
-    alarm.minutewake = (parseInt(alarm.minutewake) - 30).toString();//alarm.minutewake is a string, so I need to parse it, do math, the stringify it
+  if(travelTime.difference == undefined){
+    travelTime.difference = 30;
   }else{
-    alarm.minutewake = (60 - (30 - parseInt(alarm.minutewake))).toString();
+    travelTime.difference = Math.round(travelTime.difference/60);
+  };
+  differenceInMinutes = travelTime.difference;
+  if(alarm.minutewake > differenceInMinutes){
+    alarm.minutewake = (parseInt(alarm.minutewake) - differenceInMinutes).toString();//alarm.minutewake is a string, so I need to parse it, do math, the stringify it
+  }else{
+    alarm.minutewake = (60 - (differenceInMinutes - parseInt(alarm.minutewake))).toString();
     alarm.hourwake = (parseInt(alarm.hourwake) - 1);
   }
 };
 
-// var routeCheck = function(){
-//   var walkTime;
-//   var bikeTime;
 
-//   $.ajax({
-//     type: 'GET',
-//     headers:{
-//       "Authorization": "AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk",
-//       "Access-Control-Allow-Origin": "*"
-//     },
-//     dataType: 'jsonp',
-//     callback: function(res){console.log(res)},
-//     url: "https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk"
-//   }).done(function(res){
-//     console.log(res);
-//   });
-// };
+var getLatLong = function(){
+  $.ajax({
+    url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + startLocation.address.replace(" ", "+") + zipcode,
+    context: document.body
+  }).done(function(res) {
+    startLocation.latitude = res.results[0].geometry.location.lat;  
+    startLocation.longitude = res.results[0].geometry.location.lng;
 
-// $(document).ready(function(){
-//   $('#submitid').click(function(){
-//     $('#alert').show();
-//   });
-
-// });
-
-// var jsonpRequest = function(url, callback) {
-
-//   var script = document.createElement('script');
-//   script.src = url + '?callback=onResponse';
-//   window.onResponse = callback;
-
-//   document.body.appendChild(script);
+      $.ajax({
+      url: "https://maps.googleapis.com/maps/api/geocode/json?address=" + destination.address.replace(" ", "+") + zipcode,
+      context: document.body
+    }).done(function(res) {
+      destination.latitude = res.results[0].geometry.location.lat;  
+      destination.longitude = res.results[0].geometry.location.lng;
+      checkdistance();            //god damn asynchrony 
+    });
+  });
 
 
-// };
+};
+
+var checkdistance = function(){
+  $.ajax({
+    url: "https://api.mapbox.com/v4/directions/mapbox.cycling/" + startLocation.longitude + "," + startLocation.latitude + ";" + destination.longitude + "," + destination.latitude + ".json?alternatives={true|false}&instructions={text|html}&geometry={geojson|polyline|false}&steps={true|false}&access_token=pk.eyJ1IjoidGhlZXN3ZWVuZXkiLCJhIjoiY2lqMjFkOGRsMDBkcHRvbHp0NjY1dTVxdSJ9.dyzB_rtro5mOjIOv1kPkYA",
+    context: document.body
+  }).done(function(res) {
+    travelTime.skating = res.routes[0].duration * 1.3;//to account for difference in speed between cycling and biking
+
+      $.ajax({ // damn asynchrony
+      url: "https://api.mapbox.com/v4/directions/mapbox.walking/" + startLocation.longitude + "," + startLocation.latitude + ";" + destination.longitude + "," + destination.latitude + ".json?alternatives={true|false}&instructions={text|html}&geometry={geojson|polyline|false}&steps={true|false}&access_token=pk.eyJ1IjoidGhlZXN3ZWVuZXkiLCJhIjoiY2lqMjFkOGRsMDBkcHRvbHp0NjY1dTVxdSJ9.dyzB_rtro5mOjIOv1kPkYA",
+      context: document.body
+    }).done(function(res) {
+      travelTime.walking = res.routes[0].duration;
+      travelTime.difference = travelTime.walking - travelTime.skating
+    });
+  });
+
+  
+};
 
 
 
-// jsonpRequest("https://maps.googleapis.com/maps/api/directions/json?origin="+ startLocation + "+" + zipcode + "&destination=" + destination + "+" + zipcode + "&mode=bicycling&key=AIzaSyDbFHs8I-4JzwuXIR156Po0XXnZ58YfASk", function(res){console.log(res)});
+
+
 
 
 
