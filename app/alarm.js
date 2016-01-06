@@ -47,6 +47,7 @@ var alarm={
       alarm.hourselect.disabled=false;
       alarm.minuteselect.disabled=false;
       alarm.secondselect.disabled=false;
+      weatherHasBeenChecked = false;
       return false;
     };
 
@@ -94,7 +95,8 @@ var weatherCheck = function(zipcode){
     if(res.rain['1h'] > 0.1){    //returns probability of rain within the next hour
       console.log("it gon' rain");
       resetAlarm();               //dat modularity
-    }   
+    } 
+    // resetAlarm();  
   });
   weatherHasBeenChecked = true;//one want to run this function once, value set to false at top of page
 };
