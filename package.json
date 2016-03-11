@@ -1,21 +1,24 @@
 {
   "name": "2015-11-mvp",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Trigger based alarm clock for skateboarders worried about commuting in the rain",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/TheeSweeney/2015-11-mvp.git"
+    "url": "https://github.com/TheeSweeney/mvp.git"
   },
-  "author": "",
+  "author": "Brian Sweeney",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/TheeSweeney/2015-11-mvp/issues"
+    "url": "https://github.com/TheeSweeney/mvp/issues"
   },
-  "homepage": "https://github.com/TheeSweeney/2015-11-mvp",
+  "engines": {
+    "node": "5.2.0"
+  },
+  "homepage": "https://github.com/TheeSweeney/mvp",
   "dependencies": {
     "angular": "^1.4.8",
     "body-parser": "^1.14.2",
