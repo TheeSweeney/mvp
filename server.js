@@ -12,4 +12,4 @@ console.log(__dirname);
 
 
 console.log('Shortly is listening on 8000');
-app.listen(provess.env.PORT || 8000);
+app.listen(process.env.PORT || 8000);
